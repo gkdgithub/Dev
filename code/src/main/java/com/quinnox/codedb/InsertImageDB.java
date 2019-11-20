@@ -19,7 +19,8 @@ public class InsertImageDB {
 	public Connection getConnection() {
 		Connection connection = null;
  
-		try {
+		try {	
+			// Deprecated from JDBC 4.0
 			//Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/gaurav?useSSL=false", "root", "mysql");
 		} catch (Exception e) {
