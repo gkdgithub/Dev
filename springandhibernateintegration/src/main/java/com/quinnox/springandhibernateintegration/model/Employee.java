@@ -38,7 +38,7 @@ public class Employee implements Serializable{
 	 private String gender;
 	 
 	 @DateTimeFormat(pattern="dd/MM/yyyy")
-	 @Past 
+	 @Past
 	 @NotNull
 	 @Column(name = "dob", nullable = false)
 	 private Date dob;
