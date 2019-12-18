@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class EmployeeController {
 	public String listEmployees(Model model){
 		List<Employee> employees=employeeService.findAllEmployees();
 		model.addAttribute("employees",employees);
-		return "AllEmployees";		
+		return "allEmployees";		
 	}
 	
 	@GetMapping(value="/new")
@@ -50,7 +51,7 @@ public class EmployeeController {
 			return "employeeForm";
 		}
 		employeeService.saveEmployee(employee);
-		modelMap.addAttribute("success","Employee "+employee.getName()+" Got registered successfully ");
+		modelMap.addAttribute("message","Employee "+employee.getName()+" Got registered successfully ");
 		return "success";
 	}
 	
@@ -69,9 +70,22 @@ public class EmployeeController {
 			return "employeeForm";
 		}
 		employeeService.updateEmployee(employee);
-		modelMap.addAttribute("success","Employee "+employee.getName()+"  Got Updated successfully");
+		modelMap.addAttribute("message","Employee "+employee.getName()+"  Got Updated successfully");
 		return "success";		
 	}
 	
+	@RequestMapping(value="/delete/{id}",method=RequestMethod.DELETE)
+	public String deleteEmployee(@PathVariable("id") int id){
+		employeeService.deleteEmployeeById(id);
+		return "redirect:/";	
+	}
 	
+	@DeleteMapping(value="/delete")
+	public ModelAndView deleteAllEmployee(ModelMap modelMap){
+		employeeService.deleteAllEmployee();
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.setViewName("seccess");
+		modelAndView.addObject("message","All Employees successfully");
+		return modelAndView;
+	}
 }
