@@ -35,6 +35,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	// Method messageSource configures a Message bundle to support [internationalized] messages from properties file
 	// Spring will search message.properties in application classpath
 	// We are writing our own custom validation(JSR 303). To enable that we are using ResourceBundleMessageSource
+	
+	@Bean
 	public MessageSource messageSource(){
 		ResourceBundleMessageSource bundleMessageSource=new ResourceBundleMessageSource();
 		bundleMessageSource.setBasename("message");
