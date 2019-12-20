@@ -16,6 +16,9 @@ public class SendEmail {
 	
 		public static void main(String[] args) {
 			
+			// Use this link make your google accout less secure then only mail will go
+			// https://www.google.com/settings/security/lesssecureapps
+			
 			// email ID of Recipient. 
 		      String recipient1 = "gaurav10081992@gmail.com";
 		      
@@ -23,7 +26,7 @@ public class SendEmail {
 		  
 		      // email ID of  Sender. 
 		      String sender = "gauravgreatgaurav@gmail.com";
-		      String password="";
+		      String password="9670770983";
 		  
 		      // using host as localhost 
 		      //String host = "localhost"; 
