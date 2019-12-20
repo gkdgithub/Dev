@@ -16,7 +16,7 @@ public class SendEmail {
 	
 		public static void main(String[] args) {
 			
-			// Use this link make your google accout less secure then only mail will go
+			// Use this link make your google account less secure then only mail will go
 			// https://www.google.com/settings/security/lesssecureapps
 			
 			// email ID of Recipient. 
