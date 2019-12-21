@@ -62,7 +62,7 @@ public class EmployeeController {
 		return "employeeForm";		
 	}
 	
-	@PutMapping(value="/edit")
+	@PutMapping(value="/update")
 	public String updateEmployee(@Valid @ModelAttribute("employee") Employee employee, BindingResult bindingResult,
 			ModelMap modelMap){
 		

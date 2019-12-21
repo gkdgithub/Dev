@@ -28,14 +28,9 @@ public class SendEmail {
 		      String sender = "gauravgreatgaurav@gmail.com";
 		      String password="9670770983";
 		  
-		      // using host as localhost 
-		      //String host = "localhost"; 
 		  
 		      // Getting system properties 
 		      Properties properties = System.getProperties(); 
-		  
-		      // Setting up mail server 
-		      //properties.setProperty("mail.smtp.host", host); 
 		      
 		      properties.put("mail.smtp.starttls.enable", "true"); 
 		      properties.put("mail.smtp.host", "smtp.gmail.com");
