@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -40,7 +39,7 @@ public class UpdateExcel {
 			workbook.close();
 			System.out.println("Update Completed");
 			
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+		} catch (EncryptedDocumentException | IOException e) {
 			e.printStackTrace();
 		}
 

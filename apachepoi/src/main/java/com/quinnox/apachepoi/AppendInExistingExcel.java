@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -82,7 +81,7 @@ public class AppendInExistingExcel {
 			workbook.close();
 			System.out.println("Append Completed");
 			
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+		} catch (EncryptedDocumentException | IOException e) {
 			e.printStackTrace();
 		}
 
