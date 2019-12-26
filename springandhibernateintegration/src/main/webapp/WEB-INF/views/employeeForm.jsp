@@ -17,7 +17,7 @@
 		</center>
 		<div align="center">
 					
-		    <form:form method="POST" modelAttribute="employee">
+		    <form:form action="save" method="POST" modelAttribute="employee">
 		        <form:input type="hidden" readonly="readonly" path="id" id="id"/>
 		        <table>
 		            <tr>

@@ -28,10 +28,10 @@ public class EmployeeDaoImpl extends AbstractDao<Integer, Employee> implements E
 		persist(employee);
 	}
 
-	@Override
+/*	@Override
 	public void updateEmployee(Employee employee) {
 		update(employee);
-	}
+	}*/
 
 	@Override
 	public void deleteEmployeeById(int id) {
