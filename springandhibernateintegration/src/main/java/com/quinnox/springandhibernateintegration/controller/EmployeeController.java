@@ -62,17 +62,17 @@ public class EmployeeController {
 		return "employeeForm";		
 	}
 	
-	@PutMapping(value="/update")
+/*	@PutMapping(value="/update")
 	public String updateEmployee(@Valid @ModelAttribute("employee") Employee employee, BindingResult bindingResult,
 			ModelMap modelMap){
 		
 		if(bindingResult.hasErrors()){
-			return "employeeForm";
+			return "editForm";
 		}
 		employeeService.updateEmployee(employee);
 		modelMap.addAttribute("message","Employee "+employee.getName()+"  Got Updated successfully");
 		return "success";		
-	}
+	}*/
 	
 	@RequestMapping(value="/delete/{id}",method=RequestMethod.DELETE)
 	public String deleteEmployee(@PathVariable("id") int id){
