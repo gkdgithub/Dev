@@ -26,7 +26,7 @@ public class SendEmail {
 		  
 		      // email ID of  Sender. 
 		      String sender = "gauravgreatgaurav@gmail.com";
-		      String password="9670770983";
+		      String password="********";
 		  
 		  
 		      // Getting system properties 

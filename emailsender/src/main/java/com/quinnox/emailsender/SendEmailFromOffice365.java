@@ -15,7 +15,7 @@ public class SendEmailFromOffice365 {
 	public static void main(String args[]) {
 		
 		final String username = "gauravd@quinnox.com";  // like yourname@outlook.com
-	    final String password = "Password$123";   // password here
+	    final String password = "********";   // password here
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", "true");
