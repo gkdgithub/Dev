@@ -35,7 +35,7 @@ public class AppContextConfig {
 	}
 
 	@Bean
-	private DataSource dataSource() {
+	public DataSource dataSource() {
 		DriverManagerDataSource dataSource=new DriverManagerDataSource();
 		dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
 		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
@@ -45,7 +45,7 @@ public class AppContextConfig {
 	}
 	
 	@Bean
-	private Properties hibernateProperties() {
+	public Properties hibernateProperties() {
 		Properties properties=new Properties();
 		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
@@ -58,7 +58,7 @@ public class AppContextConfig {
 	public HibernateTransactionManager transactionManager(){
 		HibernateTransactionManager hiTransactionManager=new HibernateTransactionManager();
 		hiTransactionManager.setSessionFactory(sessionFactory().getObject());
-		return null;	
+		return hiTransactionManager;	
 	}
 	
 }

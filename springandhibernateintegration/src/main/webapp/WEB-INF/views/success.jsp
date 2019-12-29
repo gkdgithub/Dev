@@ -12,6 +12,7 @@
 	<body>
 		<div align="center">
 			${message}
+			<br><br>
 		<a href='<c:url value="/"></c:url>'>List All The Employees</a>
 		</div>
 	</body>

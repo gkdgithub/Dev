@@ -12,8 +12,6 @@
 	<body>
 		<center>
 			<h2>Registration Form</h2>
-			&nbsp;&nbsp;&nbsp;
-			<h2><a href='<c:url vale="/list"></c:url>'></a></h2>
 		</center>
 		<div align="center">
 					
@@ -57,13 +55,17 @@
 		            </tr>
 		     
 		            <tr>
-		                <td colspan="3" align="center">              
-		                     <input type="submit" value="Register"/>     
+		                <td colspan="10" align="center">              
+		                  	<input type="submit" value="Register"/>    
 		                </td>
 		            </tr>
 		        </table>
 		    </form:form>
 					
 		</div>
+		<div align="center">
+			<h2><a href='<c:url value="/list"></c:url>'>List of Employees</a></h2>
+		</div>
+		
 	</body>
 </html>

@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -25,10 +25,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="emp_table")
 public class Employee implements Serializable{
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	 @Id
+	 @GeneratedValue(strategy=GenerationType.AUTO)
+	 private int id;
 	
+	 @NotEmpty
 	 @Size(min=3, max=50)
 	 @Column(name = "name", nullable = false)
 	 private String name;
@@ -44,7 +45,7 @@ public class Employee implements Serializable{
 	 private Date dob;
 	 
 	 @NotNull 
-	 @FutureOrPresent 
+	 @Future 
 	 @DateTimeFormat(pattern="dd/MM/yyyy")
 	 @Column(name = "doj", nullable = false)
 	 private Date doj;
@@ -58,14 +59,14 @@ public class Employee implements Serializable{
 	 @Digits(integer=6, fraction=2)
 	 @Range(min=15000,max=100000)
 	 @Column(name = "salary", nullable = false)
-	 private float salary;
+	 private Double salary;
 	 
 	 public Employee() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Employee(int id, String name, String gender, Date dob,
-			 Date doj, String email, float salary) {
+			 Date doj, String email, Double salary) {
 		this.id = id;
 		this.name = name;
 		this.gender = gender;
@@ -129,11 +130,11 @@ public class Employee implements Serializable{
 		this.email = email;
 	}
 
-	public float getSalary() {
+	public Double getSalary() {
 		return salary;
 	}
 
-	public void setSalary(float salary) {
+	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
 	 

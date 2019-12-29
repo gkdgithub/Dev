@@ -10,7 +10,7 @@ import com.quinnox.springandhibernateintegration.AbstractDao.AbstractDao;
 import com.quinnox.springandhibernateintegration.dao.EmployeeDao;
 import com.quinnox.springandhibernateintegration.model.Employee;
 
-@Repository
+@Repository("employeeDao1")
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EmployeeDaoImpl extends AbstractDao<Integer, Employee> implements EmployeeDao{
 	
@@ -35,7 +35,8 @@ public class EmployeeDaoImpl extends AbstractDao<Integer, Employee> implements E
 
 	@Override
 	public void deleteEmployeeById(int id) {
-		delete(id);
+		Employee employee=getByKey(id);
+		delete(employee);
 	}
 
 	

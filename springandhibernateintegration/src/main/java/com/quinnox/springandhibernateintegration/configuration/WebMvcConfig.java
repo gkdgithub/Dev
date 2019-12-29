@@ -12,15 +12,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan(basePackages={"com.quinnox.springandhibernateintegration.configuration"})
 @EnableWebMvc
+@ComponentScan(basePackages={"com.quinnox.springandhibernateintegration.*"})
 public class WebMvcConfig implements WebMvcConfigurer{
 	
 	@Bean(name="viewResolver")
 	public ViewResolver viewResolver(){
 		InternalResourceViewResolver internalResourceViewResolver=new InternalResourceViewResolver();
-		internalResourceViewResolver.setSuffix("/WEB-INF/views/");
-		internalResourceViewResolver.setPrefix(".jsp");
+		internalResourceViewResolver.setPrefix("/WEB-INF/views/");
+		internalResourceViewResolver.setSuffix(".jsp");		
 		return internalResourceViewResolver;
 	}
 	

@@ -3,17 +3,21 @@ package com.quinnox.springandhibernateintegration.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.quinnox.springandhibernateintegration.dao.EmployeeDao;
 import com.quinnox.springandhibernateintegration.model.Employee;
 import com.quinnox.springandhibernateintegration.service.EmployeeService;
 
-@Service
+@Service("employeeService1")
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService{
 	
 	
 	@Autowired
+	@Qualifier(value="employeeDao1")
 	private EmployeeDao employeeDao;
 
 	@Override

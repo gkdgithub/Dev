@@ -6,7 +6,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class AbstractDao<PK extends Serializable, T>{
 	
 	private final Class<T> persistentClass;
@@ -29,13 +31,10 @@ public abstract class AbstractDao<PK extends Serializable, T>{
 	public void persist(T entity){
 		getSession().saveOrUpdate(entity);
 	}
+
 	
-/*	public void update(T entity){
-		getSession().update(entity);
-	}*/
-	
-	public void delete(int id){
-		getSession().delete(id);
+	public void delete(T entity){
+		getSession().delete(entity);
 	}
 	
 	@SuppressWarnings("deprecation")
