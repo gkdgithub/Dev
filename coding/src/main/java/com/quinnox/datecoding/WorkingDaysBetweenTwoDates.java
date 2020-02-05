@@ -8,8 +8,8 @@ import java.util.Date;
 public class WorkingDaysBetweenTwoDates {
 
 	public static void main(String[] args) {
-		String date1="10/11/2019";
-		String date2="2/12/2019";
+		String date1="02/01/2020";
+		String date2="6/1/2020";
 		
 		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
 		try {

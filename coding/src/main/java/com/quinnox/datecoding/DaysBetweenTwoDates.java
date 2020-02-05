@@ -29,6 +29,7 @@ public class DaysBetweenTwoDates {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+			// getTime() method return milliseconds in long data type
 			int numberOfDays=(int)((date1.getTime()-date2.getTime())/(1000*60*60*24));
 			System.out.println("The diff. b/w date "+simpleDateFormat2.format(date1)+" and date "
 			+simpleDateFormat2.format(date2)+" is "+Math.abs(numberOfDays)+" days");
