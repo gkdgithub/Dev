@@ -11,9 +11,21 @@ public class NumberToWords {
 			System.out.println("Invalid Value");
 		}
 		else{
-			String rev=reverse(number);
-			for(int i=rev.length()-1;i>=0;i--){
-				switch(rev.charAt(i)){
+			int rev=reverse(number);
+			String revString="";
+			if(getDigitCount(rev)<getDigitCount(number)){
+			int diff=getDigitCount(number)-getDigitCount(rev);
+			revString=String.valueOf(rev);
+				while(diff>0){
+					revString=0+revString;
+					diff--;
+				}
+			}
+			else{
+				revString=String.valueOf(rev);
+			}
+			for(int i=revString.length()-1;i>=0;i--){
+				switch(revString.charAt(i)){
 				case '0':
 					System.out.println("Zero");
 					break;
@@ -49,8 +61,14 @@ public class NumberToWords {
 		}
 	}
 	
-	public static String reverse(int number){
-		int count=getDigitCount(number);
+	public static int reverse(int number){
+		int count=0;
+		if(number<0){
+			count=getDigitCount(Math.abs(number));
+		}
+		else{
+			count=getDigitCount(number);
+		}		
 		int reverse=0;
 		int i=number;
 		while(count>0){
@@ -58,22 +76,14 @@ public class NumberToWords {
 			i/=10;
 			count--;
 		}
-		if(getDigitCount(reverse)<getDigitCount(number)){
-			int diff=getDigitCount(number)-getDigitCount(reverse);
-			String rev=String.valueOf(reverse);
-			while(diff>0){
-				rev=0+rev;
-				diff--;
-			}
-			return rev;
-		}
-		else{
-			return String.valueOf(reverse);
-		}
+		return reverse;
 	}
 	
 	public static int getDigitCount(int number){
-		if(number>0){
+		if(number==0){
+			return 1;
+		}
+		else if(number>0){
 			int count=0;
 			while(number>0){
 				number/=10;
