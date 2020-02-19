@@ -3,7 +3,7 @@ package com.udemy.udemyJava;
 public class AllFactors {
 
 	public static void main(String[] args) {
-		printFactors(10);
+		printFactors(45);
 	}
 	
 	public static void printFactors(int number){
