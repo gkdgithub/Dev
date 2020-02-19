@@ -7,6 +7,7 @@ public class LargestPrime {
 
 	}
 	
+	// getting largest prime number from factors of a given number
 	public static int getLargestPrime(int number){
 		int largestPrime=1;
 		if(number<=1){
