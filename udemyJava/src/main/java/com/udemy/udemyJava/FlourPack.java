@@ -15,7 +15,7 @@ public class FlourPack {
 			int bigCountWeight=bigCount*5;
 			int smallCountWeight=smallCount*1;
 			
-			if((bigCountWeight+smallCountWeight)==goal){
+			if((bigCountWeight+smallCountWeight)<=goal){
 				return true;
 			}
 			else if((bigCountWeight+smallCountWeight)>goal){
