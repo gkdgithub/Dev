@@ -35,7 +35,7 @@ public class InsertImageDB {
         FileInputStream inputStream = null;
  
         try {
-            File image = new File("E:\\Honda.JPEG");
+            File image = new File("D:\\Binary\\Honda.JPEG");
             inputStream = new FileInputStream(image);
  
             connection = getConnection();

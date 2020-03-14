@@ -38,7 +38,7 @@ public class RetriveImageDB {
         FileOutputStream outputStream = null;
  
         try {
-            File image = new File("E:\\Image\\Honda.jpeg");
+            File image = new File("D:\\Binary\\Retrive\\Honda.jpeg");
             outputStream = new FileOutputStream(image);
  
             connection = getConnection();

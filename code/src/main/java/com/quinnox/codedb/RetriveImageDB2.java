@@ -49,7 +49,7 @@ public class RetriveImageDB2 {
             		Blob imageBlob=rs.getBlob("image_data");
             		// Retrive image data by getBinaryStream into inputStream
             		inputStream=imageBlob.getBinaryStream(1, imageBlob.length());
-            		outputStream=new FileOutputStream(new File("E:\\Image\\Honda.jpeg"));
+            		outputStream=new FileOutputStream(new File("D:\\Binary\\Retrive\\Honda.jpeg"));
             		
             		// Now let's write this content from inputStream to outputStream
             		int i=0;

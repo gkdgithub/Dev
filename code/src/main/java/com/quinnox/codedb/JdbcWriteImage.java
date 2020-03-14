@@ -22,7 +22,7 @@ public class JdbcWriteImage {
 
         try (Connection con = DriverManager.getConnection(cs, user, password); PreparedStatement pst = con.prepareStatement(sql)) {
 
-            File myFile = new File("E:\\Honda.JPEG");
+            File myFile = new File("D:\\Binary\\Honda.JPEG");
             try (FileInputStream fin = new FileInputStream(myFile)) {
             	
             	pst.setString(1, "Honda Car");
