@@ -1,8 +1,9 @@
 <html>
 <body>
 	<h2></h2>
-	<form action="/viewCar" method="get">
-		<input type="button" name="Honda Car" value="ViewCar"/>
+	<form action="viewCar" method="post">
+		<input type="text" name="CarName"/>
+		<input type="submit" value="View"/>
 	</form>
 </body>
 </html>

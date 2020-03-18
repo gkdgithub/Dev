@@ -34,8 +34,14 @@ public class GetCarServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("Inside Get");
-		doPost(request, response);
+		System.out.println("Inside GET Method");
+		System.out.println(request.getContextPath());
+		System.out.println(request.getRequestURI());
+		System.out.println(request.getRequestURL());
+		System.out.println(request.getServerName()+"=="+request.getServerPort()+"=="+request.getServletPath());
+		System.out.println(request.getRemoteAddr()+"==>>"+request.getRemoteHost()+"==>>"+request.getRemotePort());
+		//doPost(request, response);
+		request.getRequestDispatcher("WEB-INF/views/index.jsp").forward(request, response);
 	}
 
 	/**

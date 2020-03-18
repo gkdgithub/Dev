@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class FileUploadDao {
 	
- 	private static String URL = "jdbc:mysql://localhost:3306/fileappdb1?useSSL=false";
+ 	private static String URL = "jdbc:mysql://localhost:3306/fileappdb2?useSSL=false";
  	private static String USER = "root";
  	private static String PASSWORD = "mysql";
 	

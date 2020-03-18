@@ -37,7 +37,9 @@ public class CarDao {
 	                car = new Car();
 	                String carTitle = result.getString("image_title");
 	                Blob blob = result.getBlob("image_data");
-	                 
+	                
+	                byte[] bytes=blob.getBytes(1, (int)blob.length());
+	                
 	                inputStream = blob.getBinaryStream();
 	                outputStream = new ByteArrayOutputStream();
 	                
@@ -51,14 +53,16 @@ public class CarDao {
 	                
 	                //Alternate Way  
 	                // Now let's write this content from inputStream to outputStream
-            		int i=0;
+            		/*int i=0;
             		while((i=inputStream.read())>-1){
             			outputStream.write(i);
-            		}
-            		              
+            		}*/
+            		
+	                // or else
+	                outputStream.write(bytes);
 	                 
-	                byte[] imageBytes = outputStream.toByteArray();
-	                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+	                //byte[] imageBytes = outputStream.toByteArray();
+	                String base64Image = Base64.getEncoder().encodeToString(bytes);
 	      	      	
 	      	        car.setCarTitle(carTitle);
 	      	        car.setBase64Image(base64Image);

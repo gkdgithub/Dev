@@ -9,6 +9,7 @@
 	<body>
 		<center>
 			<h2><%=request.getAttribute("message") %></h2>
+			<h3><a href="FileDisplayServlet">Click here To see the uploaded Pic</a></h3>
 		</center>
 	</body>
 </html>

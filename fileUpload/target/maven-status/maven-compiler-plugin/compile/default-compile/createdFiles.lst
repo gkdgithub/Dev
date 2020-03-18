@@ -1,1 +1,5 @@
 com\quinnox\fileUpload\controller\FIleUploadServlet.class
+com\quinnox\fileUpload\dao\FileUploadDao.class
+com\quinnox\fileUpload\controller\FileDisplayServlet.class
+com\quinnox\fileUpload\util\PathExtracter.class
+com\quinnox\fileUpload\model\Image.class

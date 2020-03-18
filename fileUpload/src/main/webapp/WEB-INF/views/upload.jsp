@@ -10,7 +10,7 @@
 		<div align="center">
 			<h1>File Upload</h1>
     		<form method="post" action="fileUpload" enctype="multipart/form-data">
-	            Select file to upload: <input type="file" name="file" size="60" /><br>
+	            Select file to upload: <input type="file" name="file" size="60" /><br><br>
 	            <input type="submit" value="Upload" />
     		</form>
 		</div>
