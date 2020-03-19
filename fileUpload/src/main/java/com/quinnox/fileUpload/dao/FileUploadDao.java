@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.io.ByteArrayOutputStream;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.quinnox.fileUpload.model.Image;
 
@@ -62,12 +62,19 @@ public class FileUploadDao {
 					filePath=rs.getString("filePath");
 				}			
 			}
+			System.out.println("Path : "+filePath);
 			inputStream=new FileInputStream(new File(filePath));
 			outputStream=new ByteArrayOutputStream();
 			int i=0;
     		while((i=inputStream.read())>-1){
     			outputStream.write(i);
     		}
+			/*byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+             
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);                  
+            }*/
     		String imageToString=Base64.getEncoder().encodeToString(outputStream.toString().getBytes());
     		//String imageToString=outputStream.toString();
     		//String imageToString=new String(outputStream.toString().getBytes(),"UTF-8");
