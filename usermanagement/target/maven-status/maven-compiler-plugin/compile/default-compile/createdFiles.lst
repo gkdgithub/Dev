@@ -1,0 +1,4 @@
+com\usermanagement\model\User.class
+com\usermanagement\dao\UserDao.class
+com\usermanagement\controller\UserServlet.class
+com\usermanagement\util\HibernateUtil.class
