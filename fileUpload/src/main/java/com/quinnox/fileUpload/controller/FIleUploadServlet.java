@@ -74,6 +74,7 @@ public class FIleUploadServlet extends HttpServlet {
 					if(!fileItem.isFormField()){
 						String fileName=new File(fileItem.getName()).getName();
 						String filePath=UPLOAD_DIRECTORY+File.separator+""+new Date().getTime()+fileName;
+						//String filePath=UPLOAD_DIRECTORY+File.separator+fileName;
 						System.out.println(filePath);
 						fileItem.write(new File(filePath));
 						status=new FileUploadDao().saveFileToDB(fileName, filePath);
