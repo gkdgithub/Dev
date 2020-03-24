@@ -64,10 +64,10 @@ public class UserDao {
 				ResultSet rs=preparedStatement.executeQuery();
 				while (rs.next()) {
 					User user=new User();
-					user.setId(rs.getInt(1));
-					user.setUserName(rs.getString(2));
-					user.setEmail(rs.getString(3));
-					user.setCountry(rs.getString(4));
+					user.setId(rs.getInt("id"));
+					user.setUserName(rs.getString("userName"));
+					user.setEmail(rs.getString("email"));
+					user.setCountry(rs.getString("country"));
 					listOfUser.add(user);
 				}
 			}

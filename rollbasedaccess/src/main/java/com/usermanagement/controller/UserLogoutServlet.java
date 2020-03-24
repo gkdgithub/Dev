@@ -24,7 +24,7 @@ public class UserLogoutServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// it return the current session if present or else return returns null
+		// it return the current session if present or else returns null
 		HttpSession oldSession=req.getSession(false);
 		
 		if(oldSession!=null){

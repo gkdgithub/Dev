@@ -26,6 +26,10 @@
 				<c:if test='<%= session.getAttribute("username")!=null%>'>
 					<a href="logout">Logout</a>
 				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${password!=null}">
+					<h2><c:out value="${password}"></c:out></h2>
+				</c:if>
 			</h2>	
 		</center>
 		

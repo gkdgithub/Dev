@@ -32,10 +32,13 @@ public class UserLoginDao {
 			ResultSet rs=preparedStatement.executeQuery();
 			if(rs.next()){
 				System.out.println("Rs is not null");
-				status=true;
-				//System.out.println(rs.getString("userRole"));
-				HttpSession httpSession=req.getSession();
-				httpSession.setAttribute("ROLE", rs.getString("userRole"));
+				String password=rs.getString("password");
+				if(password.equals(userLoginBean.getPassword())){
+					//System.out.println(rs.getString("userRole"));
+					HttpSession httpSession=req.getSession();
+					httpSession.setAttribute("ROLE", rs.getString("userRole"));
+					status=true;
+				}			
 			}
 			else{
 				System.out.println("Rs is null");

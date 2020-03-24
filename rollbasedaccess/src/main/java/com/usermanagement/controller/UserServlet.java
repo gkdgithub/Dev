@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.usermanagementwithjdbc.dao.UserDao;
 import com.usermanagementwithjdbc.model.User;
+import com.usermanagementwithjdbc.util.CheckPasswordStrength;
 
 @WebServlet("/")
 public class UserServlet extends HttpServlet{
@@ -68,27 +69,36 @@ public class UserServlet extends HttpServlet{
 	}
 	
 	private void insertUser(HttpServletRequest req, HttpServletResponse resp) {
-		String userName=req.getParameter("username");
-		String password=req.getParameter("password");
-		String userEmail=req.getParameter("email");
-		String userCountry=req.getParameter("country");
-		// By Default EveryOne is normal User
-		String userRole="USER";
+		String password=null;
+		if(CheckPasswordStrength.calculatePasswordStrenth(req.getParameter("password"))){
+			String userName=req.getParameter("username").toLowerCase();
+			password=req.getParameter("password");
+			String userEmail=req.getParameter("email").toLowerCase();
+			String userCountry=req.getParameter("country");
+			// By Default EveryOne is normal User
+			String userRole="USER";
+			
+			User user=new User();
+			user.setUserName(userName);
+			user.setPassword(password);
+			user.setEmail(userEmail);
+			user.setCountry(userCountry);
+			user.setUserRole(userRole);
 		
-		User user=new User();
-		user.setUserName(userName);
-		user.setPassword(password);
-		user.setEmail(userEmail);
-		user.setCountry(userCountry);
-		user.setUserRole(userRole);
-	
-		userDao.saveUser(user);
-		
-		try {
-			resp.sendRedirect("list");
-		} catch (IOException e) {
-			e.printStackTrace();
+			userDao.saveUser(user);
+			
+			try {
+				resp.sendRedirect("list");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			password="Your Pass is not strong enough !";
+			req.setAttribute("password", password);
+			try {req.getRequestDispatcher("WEB-INF/pages/user-form.jsp").forward(req, resp);} 
+			catch (ServletException | IOException e) {e.printStackTrace();}
 		}
+
 	}
 	
 	private void listUser(HttpServletRequest req, HttpServletResponse resp) {
