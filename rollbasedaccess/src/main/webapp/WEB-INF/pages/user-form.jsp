@@ -30,6 +30,10 @@
 				<c:if test="${password!=null}">
 					<h2><c:out value="${password}"></c:out></h2>
 				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${userName!=null}">
+					<h2><c:out value="${userName}"></c:out></h2>
+				</c:if>
 			</h2>	
 		</center>
 		

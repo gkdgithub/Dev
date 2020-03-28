@@ -21,6 +21,8 @@ public class UserDao {
 	    private static final String SELECT_ALL_USERS = "select * from user_table";
 	    private static final String DELETE_USERS_SQL = "delete from user_table where id = ?;";
 	    private static final String UPDATE_USERS_SQL = "update user_table set userName = ?,email= ?, country =? where id = ?;";
+	    
+	    private static final String COUNT_USER_BY_USERNAME="select userName from user_table where userName=?";
 	
 	    public UserDao() {
 			// TODO Auto-generated constructor stub
@@ -123,6 +125,24 @@ public class UserDao {
 			}
 			catch(SQLException sqlException){
 				printSQLException(sqlException);
+			}
+		}
+		
+		public int getUserByUserName(String userName){
+			int userNameCount=0;
+			try(PreparedStatement preparedStatement=getConnection().prepareStatement(COUNT_USER_BY_USERNAME)){
+				preparedStatement.setString(1, userName);
+				ResultSet resultSet=preparedStatement.executeQuery();
+				if(resultSet.next()){
+					return userNameCount++;
+				}
+				else{
+					return userNameCount;
+				}
+			}
+			catch(SQLException sqlException){
+				printSQLException(sqlException);
+				return userNameCount;
 			}
 		}
 		

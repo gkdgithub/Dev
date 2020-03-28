@@ -2,6 +2,7 @@ package com.usermanagement.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.usermanagementwithjdbc.dao.UserDao;
 import com.usermanagementwithjdbc.dao.UserLoginDao;
+import com.usermanagementwithjdbc.dao.UserProfileDao;
 import com.usermanagementwithjdbc.model.User;
 import com.usermanagementwithjdbc.model.UserLoginBean;
 
@@ -41,16 +43,29 @@ public class UserLoginServlet extends HttpServlet{
 			
 			RequestDispatcher requestDispatcher=null;
 			
-			if(userLoginDao.loginValidate(userLoginBean,req)){
+			User user=null;
+			Map<Boolean, User> map=userLoginDao.validateLoginAndFetchUser(userLoginBean,req);
+			Boolean isUserPresent=map.keySet().iterator().hasNext();
+			
+			if(isUserPresent){
 				// it returns the current session if present if not create a new session and return. 
 				HttpSession httpSession=req.getSession(true);
 				httpSession.setAttribute("username", username);
 				//httpSession.setMaxInactiveInterval(200);
-				List<User> users=new UserDao().getAllUser();
-				req.setAttribute("users", users);
-				requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
-				requestDispatcher.forward(req, resp);
-				
+				user=map.get(isUserPresent);
+				String role=user.getUserRole();
+				if(role.equalsIgnoreCase("ADMIN")){
+					List<User> users=new UserDao().getAllUser();
+					req.setAttribute("users", users);
+					requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
+					requestDispatcher.forward(req, resp);
+				}
+				else{
+					User singleUser=new UserProfileDao().getUserByUserName(username);
+					req.setAttribute("user", singleUser);
+					requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp");
+					requestDispatcher.forward(req, resp);
+				}				
 			}
 			else{
 				req.setAttribute("message", "Credentials that provided by you is wrong !! ");

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.usermanagementwithjdbc.dao.UserDao;
+import com.usermanagementwithjdbc.dao.UserProfileDao;
 import com.usermanagementwithjdbc.model.User;
 import com.usermanagementwithjdbc.util.CheckPasswordStrength;
 
@@ -51,8 +52,11 @@ public class UserServlet extends HttpServlet{
 		case "/delete":
 			deleteUser(req,resp);
 			break;
-		default:
+		case "/list":
 			listUser(req,resp);
+			break;
+		default:
+			showNewForm(req,resp);
 		}
 	}
 	
@@ -72,6 +76,15 @@ public class UserServlet extends HttpServlet{
 		String password=null;
 		if(CheckPasswordStrength.calculatePasswordStrenth(req.getParameter("password"))){
 			String userName=req.getParameter("username").toLowerCase();
+			
+			int userNameCount=new UserDao().getUserByUserName(userName);
+			if(userNameCount!=0){
+				userName="UserName already exist Try another !";
+				req.setAttribute("userName", userName);
+				try {req.getRequestDispatcher("WEB-INF/pages/user-form.jsp").forward(req, resp);} 
+				catch (ServletException | IOException e) {e.printStackTrace();}
+			}
+			
 			password=req.getParameter("password");
 			String userEmail=req.getParameter("email").toLowerCase();
 			String userCountry=req.getParameter("country");
@@ -103,16 +116,31 @@ public class UserServlet extends HttpServlet{
 	
 	private void listUser(HttpServletRequest req, HttpServletResponse resp) {
 		
-		List<User> users=userDao.getAllUser();
-		req.setAttribute("users", users);
-		RequestDispatcher requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
-		try {
-			requestDispatcher.forward(req, resp);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		HttpSession httpSession=req.getSession(true);
+		String userName=(String) httpSession.getAttribute("username");
+		
+		User singleUser=new UserProfileDao().getUserByUserName(userName);
+		if(singleUser.getUserRole().equalsIgnoreCase("USER")){
+			req.setAttribute("user", singleUser);
+			try {
+				req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp").forward(req, resp);
+			} catch (ServletException | IOException e) {
+				e.printStackTrace();
+			}
 		}
+		else{
+			List<User> users=userDao.getAllUser();
+			req.setAttribute("users", users);
+			RequestDispatcher requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
+			try {
+				requestDispatcher.forward(req, resp);
+			} catch (ServletException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) {

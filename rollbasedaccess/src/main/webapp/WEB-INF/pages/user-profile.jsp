@@ -8,37 +8,24 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>User Management Application</title>
+		<title>Profile</title>
 	</head>
-	<body>
 	
+	<body>
+		
 		<center>
 			<h1>User Management</h1>
 			<h2>
-				<a href="new">Add New User</a>
+				<!-- <a href="new">Add New User</a>
 				&nbsp;&nbsp;&nbsp;
-				<a href="list">List All Users</a>
-				&nbsp;&nbsp;&nbsp;
-				<c:if test='<%= session.getAttribute("username")==null%>'>
-					<a href="login">Login</a>
-				</c:if>				
-				&nbsp;&nbsp;&nbsp;
+				<a href="list">List All Users</a>				
+				&nbsp;&nbsp;&nbsp; -->
 				<c:if test='<%= session.getAttribute("username")!=null%>'>
 					<a href="logout">Logout</a>
-				</c:if>
-				&nbsp;&nbsp;&nbsp;
-				<c:if test='<%= session.getAttribute("username")!=null%>'>
-					<% String username=(String)session.getAttribute("username"); %>
-					<a href="profile?username=<c:out value=username></c:out>">Profile</a>
 				</c:if>				
 			</h2>
 		</center>
 		
-		<div align="center">
-			<c:if test="${message!=null}">
-				<h2><c:out value="${message}"></c:out></h2>
-			</c:if>
-		</div>
 		<div align="center">
 			<table border="1" cellpadding="5">
 				<caption>List Of Users</caption>
@@ -50,18 +37,18 @@
 					<th>Actions</th>
 				</tr>
 				
-				<c:forEach  items="${users}" var="user">
+				<c:forEach  items="${user}" var="user">
 					<tr>
 						<td><c:out value="${user.id}"/></td>
 						<td><c:out value="${user.userName}"/></td>
 						<td><c:out value="${user.email}"/></td>
 						<td><c:out value="${user.country}"/></td>
 						
-						<td>
+						<%-- <td>
 						<a href="edit?id=<c:out value='${user.id}'></c:out>">Edit</a>
 						&nbsp;&nbsp;&nbsp; 
 						<a href="delete?id=<c:out value='${user.id}'></c:out>">Delete</a>
-						</td>					
+						</td> --%>					
 					</tr>
 				</c:forEach>
 				
