@@ -12,6 +12,8 @@ public class UserProfileDao {
 	
 	
 	private static final String SELECT_PROFILE_BY_USERNAME="select * from user_table where userName=?";
+	private static final String UPDATE_PASSWORD="update user_table set password=? where password=?";
+	
 	
 	public UserProfileDao() {
 		
@@ -49,6 +51,22 @@ public class UserProfileDao {
 		}
 		return user;	
 	}
+
 	
+	public int changePassword(String oldPassword, String enterNewPassword) {
+		int updated=0;
+		try(PreparedStatement preparedStatement=getConnection().prepareStatement(UPDATE_PASSWORD)){
+			preparedStatement.setString(1, enterNewPassword);
+			preparedStatement.setString(2, oldPassword);
+			updated=preparedStatement.executeUpdate();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return updated;			
+	}
 	
 }
