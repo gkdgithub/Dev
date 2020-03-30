@@ -12,7 +12,7 @@ public class UserProfileDao {
 	
 	
 	private static final String SELECT_PROFILE_BY_USERNAME="select * from user_table where userName=?";
-	private static final String UPDATE_PASSWORD="update user_table set password=? where password=?";
+	private static final String UPDATE_PASSWORD="update user_table set password=? where userName=?";
 	
 	
 	public UserProfileDao() {
@@ -53,11 +53,11 @@ public class UserProfileDao {
 	}
 
 	
-	public int changePassword(String oldPassword, String enterNewPassword) {
+	public int changePassword(String oldPassword, String enterNewPassword, String username) {
 		int updated=0;
 		try(PreparedStatement preparedStatement=getConnection().prepareStatement(UPDATE_PASSWORD)){
 			preparedStatement.setString(1, enterNewPassword);
-			preparedStatement.setString(2, oldPassword);
+			preparedStatement.setString(2, username);
 			updated=preparedStatement.executeUpdate();
 		}
 		catch(SQLException e){

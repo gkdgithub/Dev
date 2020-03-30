@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.usermanagementwithjdbc.dao.UserProfileDao;
 import com.usermanagementwithjdbc.util.CheckPasswordStrength;
@@ -28,13 +29,16 @@ public class ChangePassword extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession httpSession=request.getSession(true);
+		String username=(String)httpSession.getAttribute("username");
+		
 		String oldPassword=request.getParameter("oldPassword");
 		String enterNewPassword=request.getParameter("EnterNewPassword");
 		String reEnterNewPassword=request.getParameter("ReEnterNewPassword");
 		String password="";
 		if(CheckPasswordStrength.calculatePasswordStrenth(enterNewPassword)){
 			if(enterNewPassword.equals(reEnterNewPassword)){
-				int updated=new UserProfileDao().changePassword(oldPassword, enterNewPassword);
+				int updated=new UserProfileDao().changePassword(oldPassword, enterNewPassword,username);
 				if(updated>0){
 					String passwordChanged="Password changed succesfully ! ";
 					request.setAttribute("passwordChanged", passwordChanged);
