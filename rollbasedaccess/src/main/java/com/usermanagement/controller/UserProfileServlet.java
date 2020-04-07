@@ -29,7 +29,7 @@ public class UserProfileServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName=request.getParameter("username");
-		System.out.println(userName);
+		System.out.println("USERNAME ===>>> "+userName);
 		UserProfileDao userProfileDao=new UserProfileDao();
 		User user=userProfileDao.getUserByUserName(userName);
 		request.setAttribute("user", user);

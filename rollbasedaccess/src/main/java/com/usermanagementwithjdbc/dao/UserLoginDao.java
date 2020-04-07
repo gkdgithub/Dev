@@ -26,11 +26,11 @@ public class UserLoginDao {
 		return new DbConnection().getConnection();
 	}
 	
-	public Map<Boolean,User> validateLoginAndFetchUser(UserLoginBean userLoginBean,HttpServletRequest req){
+	public Map<Integer,User> validateLoginAndFetchUser(UserLoginBean userLoginBean,HttpServletRequest req){
 		Connection connection=getConnection();
-		boolean status=false;
+		int userCount=0;
 		User user=new User();
-		Map<Boolean,User> map=new HashMap<>();
+		Map<Integer,User> map=new HashMap<>();
 		
 		try(PreparedStatement preparedStatement=connection.prepareStatement(SELECT_BY_USERNAME_PASSWORD)){
 			preparedStatement.setString(1, userLoginBean.getUserName());
@@ -48,19 +48,22 @@ public class UserLoginDao {
 					user.setUserName(rs.getString("userName"));
 					user.setEmail(rs.getString("email"));
 					user.setCountry(rs.getString("country"));
+					user.setUserRole(rs.getString("userRole"));
 					
-					status=true;
+					map.put(++userCount, user);
+					return map;
 				}			
 			}
 			else{
 				System.out.println("Rs is null");
-				//status=false;
+				map.put(userCount, null);
+				return map;
 			}			
 		}
 		catch(SQLException sqlException){
 			sqlException.printStackTrace();
 		}
-		map.put(status, user);
+		
 		return map;	
 	}
 

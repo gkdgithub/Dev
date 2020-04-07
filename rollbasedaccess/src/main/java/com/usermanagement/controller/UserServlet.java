@@ -75,36 +75,48 @@ public class UserServlet extends HttpServlet{
 	private void insertUser(HttpServletRequest req, HttpServletResponse resp) {
 		String password=null;
 		if(CheckPasswordStrength.calculatePasswordStrenth(req.getParameter("password"))){
+			System.out.println("Coming inside Password Checker");
 			String userName=req.getParameter("username").toLowerCase();
-			
-			int userNameCount=new UserDao().getUserByUserName(userName);
-			if(userNameCount!=0){
+			System.out.println("userName--->>>"+userName);
+			boolean existingUserName=userDao.checkDuplicateUserName(userName);
+			System.out.println("existingUserName :: "+existingUserName);
+			if(existingUserName){
+				System.out.println("UserName already exist Try another");
 				userName="UserName already exist Try another !";
 				req.setAttribute("userName", userName);
 				try {req.getRequestDispatcher("WEB-INF/pages/user-form.jsp").forward(req, resp);} 
 				catch (ServletException | IOException e) {e.printStackTrace();}
 			}
+			else{
+				System.out.println("UserName does not exist");
+				password=req.getParameter("password");
+				String userEmail=req.getParameter("email").toLowerCase();
+				String userCountry=req.getParameter("country");
+				// By Default EveryOne is normal User
+				String userRole="USER";
+				
+				User user=new User();
+				user.setUserName(userName);
+				user.setPassword(password);
+				user.setEmail(userEmail);
+				user.setCountry(userCountry);
+				user.setUserRole(userRole);
 			
-			password=req.getParameter("password");
-			String userEmail=req.getParameter("email").toLowerCase();
-			String userCountry=req.getParameter("country");
-			// By Default EveryOne is normal User
-			String userRole="USER";
-			
-			User user=new User();
-			user.setUserName(userName);
-			user.setPassword(password);
-			user.setEmail(userEmail);
-			user.setCountry(userCountry);
-			user.setUserRole(userRole);
-		
-			userDao.saveUser(user);
-			
-			try {
-				resp.sendRedirect("list");
-			} catch (IOException e) {
-				e.printStackTrace();
+				userDao.saveUser(user);
+				
+				try {
+					System.out.println("====Inside try===");
+					//resp.sendRedirect("WEB-INF/pages/user-form.jsp");
+					String regisMessage="Registration Successful";
+					req.setAttribute("regisMessage", regisMessage);
+					req.getRequestDispatcher("WEB-INF/pages/user-form.jsp").forward(req, resp);					
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ServletException e) {
+					e.printStackTrace();
+				}
 			}
+			
 		}else{
 			password="Your Pass is not strong enough !";
 			req.setAttribute("password", password);
@@ -119,24 +131,37 @@ public class UserServlet extends HttpServlet{
 		HttpSession httpSession=req.getSession(true);
 		String userName=(String) httpSession.getAttribute("username");
 		
-		User singleUser=new UserProfileDao().getUserByUserName(userName);
-		if(singleUser.getUserRole().equalsIgnoreCase("USER")){
-			req.setAttribute("user", singleUser);
-			try {
-				req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp").forward(req, resp);
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
+		System.out.println("userName from list all user method : " + userName);
+		
+		if(userName!=null){
+			User singleUser=new UserProfileDao().getUserByUserName(userName);
+			System.out.println("singleUser==>>>>>>"+singleUser);
+			if(singleUser.getUserRole().equalsIgnoreCase("USER")){
+				req.setAttribute("singleUser", singleUser);
+				try {
+					req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp").forward(req, resp);
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				List<User> users=userDao.getAllUser();
+				req.setAttribute("users", users);
+				RequestDispatcher requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
+				try {
+					requestDispatcher.forward(req, resp);
+				} catch (ServletException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		else{
-			List<User> users=userDao.getAllUser();
-			req.setAttribute("users", users);
-			RequestDispatcher requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
 			try {
-				requestDispatcher.forward(req, resp);
-			} catch (ServletException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+				req.setAttribute("loginMessage", "You need to do login first !! ");
+				req.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(req, resp);
+			} catch (ServletException | IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -158,7 +183,6 @@ public class UserServlet extends HttpServlet{
 		}
 		else{
 			int id=Integer.parseInt(req.getParameter("id"));
-			//User user=userDao.getUser(id);
 			String sessionRole=(String)httpSession.getAttribute("ROLE");
 			
 			if(("ADMIN".equalsIgnoreCase(sessionRole))){
@@ -170,9 +194,8 @@ public class UserServlet extends HttpServlet{
 				}
 			}
 			else{
-				req.setAttribute("message", "You Are not allowed to delete this !! ");
-				req.setAttribute("users", userDao.getAllUser());
-				RequestDispatcher requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
+				userDao.deleteUser(id);
+				RequestDispatcher requestDispatcher=req.getRequestDispatcher("/logout");
 				try {
 					requestDispatcher.forward(req, resp);
 				} catch (ServletException e) {
@@ -194,31 +217,16 @@ public class UserServlet extends HttpServlet{
 			if(userName!=null){
 				int id=Integer.parseInt(req.getParameter("id"));
 				User existingUser=userDao.getUser(id);
-				String sessionRole=(String)httpSession.getAttribute("ROLE");
-				List<User> users=userDao.getAllUser();				
-				System.out.println(existingUser);
-				if(sessionRole.equalsIgnoreCase("ADMIN")){
-					req.setAttribute("user", existingUser);
-					requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/edit-userForm.jsp");
-					try {
-						System.out.println("Inside try block =========");
-						requestDispatcher.forward(req, resp);
-					} catch (ServletException | IOException e) {
-						e.printStackTrace();
-					}
+				
+				req.setAttribute("user", existingUser);
+				requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/edit-userForm.jsp");
+				try {
+					System.out.println("Inside try block =========");
+					requestDispatcher.forward(req, resp);
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
 				}
-				else{
-					req.setAttribute("message", "You Are not allowed to edit this !! ");
-					req.setAttribute("users", users);
-					requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
-					try {
-						requestDispatcher.forward(req, resp);
-					} catch (ServletException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				
 			} // end of if
 			else{
 				//System.out.println("else part");
@@ -235,24 +243,67 @@ public class UserServlet extends HttpServlet{
 	}
 
 	private void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+		
 			int id=Integer.parseInt(req.getParameter("id"));
-			String userName=req.getParameter("userName");
 			String userEmail=req.getParameter("email");
 			String userCountry=req.getParameter("country");
 			
+			String userName=req.getParameter("userName").toLowerCase();
+			System.out.println("userName--->>>"+userName);
+			boolean existingUserName = userDao.checkDuplicateUserName(userName);
+			System.out.println("existingUserName :: "+existingUserName);
 			
-			User user=new User();
-			user.setId(id);
-			user.setUserName(userName);
-			user.setEmail(userEmail);
-			user.setCountry(userCountry);
+			HttpSession httpSession=req.getSession(true);
+			String sessionRole=(String)httpSession.getAttribute("ROLE");		
 			
-			userDao.updateUser(user);
-			try {
-				resp.sendRedirect("list");
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(existingUserName){
+				if(sessionRole.equalsIgnoreCase("ADMIN")){
+					System.out.println("UserName already exist Try another");
+					userName="UserName already exist Try another !";
+					req.setAttribute("userName", userName);
+					req.setAttribute("users", userDao.getAllUser());
+					try {req.getRequestDispatcher("WEB-INF/pages/user-list.jsp").forward(req, resp);} 
+					catch (ServletException | IOException e) {e.printStackTrace();}
+				}
+				else{
+					System.out.println("UserName already exist Try another");
+					userName="UserName already exist Try another !";
+					req.setAttribute("userName", userName);
+					req.setAttribute("singleUser", userDao.getUser(id));
+					try {req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp").forward(req, resp);} 
+					catch (ServletException | IOException e) {e.printStackTrace();}
+				}
+
 			}
+			else{
+				
+				User user=new User();
+				user.setId(id);
+				user.setUserName(userName);
+				user.setEmail(userEmail);
+				user.setCountry(userCountry);
+				
+				userDao.updateUser(user);
+				
+				if(sessionRole.equalsIgnoreCase("USER")){
+					req.setAttribute("singleUser", userDao.getUser(id));
+					try {req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp").forward(req, resp);} 
+					catch (ServletException | IOException e) {e.printStackTrace();}
+				}
+				else{
+					try {
+						//resp.sendRedirect("list");
+						req.setAttribute("users", userDao.getAllUser());
+						req.getRequestDispatcher("WEB-INF/pages/user-list.jsp").forward(req, resp); 
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ServletException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}			
 	}
 
 }

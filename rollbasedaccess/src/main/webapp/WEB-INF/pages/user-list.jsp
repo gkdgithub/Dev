@@ -26,11 +26,27 @@
 				<c:if test='<%= session.getAttribute("username")!=null%>'>
 					<a href="logout">Logout</a>
 				</c:if>
+				
 				&nbsp;&nbsp;&nbsp;
 				<c:if test='<%= session.getAttribute("username")!=null%>'>
+					<a href="changePassword">ChangePassword</a>
+				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${passwordChanged!=null}">
+					<h2><c:out value="${passwordChanged}"></c:out></h2>
+				</c:if>
+				
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${userName!=null}">
+					<h2><c:out value="${userName}"></c:out></h2>
+				</c:if>
+				
+				<%-- &nbsp;&nbsp;&nbsp;
+				<c:if test='<%= session.getAttribute("username")!=null%>'>
 					<% String username=(String)session.getAttribute("username"); %>
-					<a href="profile?username=<c:out value=username></c:out>">Profile</a>
-				</c:if>				
+					<a href="profile?username=<c:out value='${username}'></c:out>">Profile</a>
+				</c:if>	 --%>
+							
 			</h2>
 		</center>
 		
@@ -39,6 +55,7 @@
 				<h2><c:out value="${message}"></c:out></h2>
 			</c:if>
 		</div>
+		
 		<div align="center">
 			<table border="1" cellpadding="5">
 				<caption>List Of Users</caption>

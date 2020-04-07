@@ -17,7 +17,7 @@
 			<h2>
 				<a href="new">Add New User</a>
 				&nbsp;&nbsp;&nbsp;
-				<a href="list">List of All Users</a>
+				<!-- <a href="list">List of All Users</a> -->
 			</h2>			
 		</center>
 		

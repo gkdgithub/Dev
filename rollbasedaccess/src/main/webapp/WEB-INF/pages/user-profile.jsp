@@ -11,6 +11,10 @@
 		<title>Profile</title>
 	</head>
 	
+	<script type="text/javascript">
+		
+	</script>
+	
 	<body>
 		
 		<center>
@@ -26,13 +30,25 @@
 				&nbsp;&nbsp;&nbsp;
 				<c:if test='<%= session.getAttribute("username")!=null%>'>
 					<a href="changePassword">ChangePassword</a>
-				</c:if>				
+				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${passwordChanged!=null}">
+					<h2><c:out value="${passwordChanged}"></c:out></h2>
+				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${singleUserMessage!=null}">
+					<h2><c:out value="${singleUserMessage}"></c:out></h2>
+				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${userName!=null}">
+					<h2><c:out value="${userName}"></c:out></h2>
+				</c:if>						
 			</h2>
 		</center>
 		
 		<div align="center">
 			<table border="1" cellpadding="5">
-				<caption>List Of Users</caption>
+				<caption>Single User</caption>
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
@@ -41,20 +57,21 @@
 					<th>Actions</th>
 				</tr>
 				
-				<c:forEach  items="${user}" var="user">
+				<c:if test="${singleUser!=null}">
 					<tr>
-						<td><c:out value="${user.id}"/></td>
-						<td><c:out value="${user.userName}"/></td>
-						<td><c:out value="${user.email}"/></td>
-						<td><c:out value="${user.country}"/></td>
+						<td><c:out value="${singleUser.id}"/></td>
+						<td><c:out value="${singleUser.userName}"/></td>
+						<td><c:out value="${singleUser.email}"/></td>
+						<td><c:out value="${singleUser.country}"/></td>
 						
-						<%-- <td>
-						<a href="edit?id=<c:out value='${user.id}'></c:out>">Edit</a>
+						<td>
+						<a href="edit?id=<c:out value='${singleUser.id}'></c:out>">Edit</a>
 						&nbsp;&nbsp;&nbsp; 
-						<a href="delete?id=<c:out value='${user.id}'></c:out>">Delete</a>
-						</td> --%>					
+						<a href="delete?id=<c:out value='${singleUser.id}'></c:out>">Delete</a>
+						</td>
+											
 					</tr>
-				</c:forEach>
+				</c:if>
 				
 			</table>
 		</div>

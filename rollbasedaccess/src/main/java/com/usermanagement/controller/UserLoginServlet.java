@@ -44,30 +44,40 @@ public class UserLoginServlet extends HttpServlet{
 			RequestDispatcher requestDispatcher=null;
 			
 			User user=null;
-			Map<Boolean, User> map=userLoginDao.validateLoginAndFetchUser(userLoginBean,req);
-			Boolean isUserPresent=map.keySet().iterator().hasNext();
+			Map<Integer, User> map=userLoginDao.validateLoginAndFetchUser(userLoginBean,req);
+			int userCount=0;
+			if(map.keySet().iterator().hasNext()){
+				userCount=map.keySet().iterator().next();
+			}
 			
-			if(isUserPresent){
+			if(userCount>0){
+				System.out.println("userCount ----->>>"+userCount);
 				// it returns the current session if present if not create a new session and return. 
 				HttpSession httpSession=req.getSession(true);
 				httpSession.setAttribute("username", username);
 				//httpSession.setMaxInactiveInterval(200);
-				user=map.get(isUserPresent);
+				user=map.get(userCount);
+				System.out.println("User----->>>"+user);
 				String role=user.getUserRole();
+				System.out.println("ROLE======"+role);
 				if(role.equalsIgnoreCase("ADMIN")){
+					System.out.println("===Role is ADMIN===");
 					List<User> users=new UserDao().getAllUser();
 					req.setAttribute("users", users);
 					requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-list.jsp");
 					requestDispatcher.forward(req, resp);
 				}
 				else{
+					System.out.println("===Role is USER===");
 					User singleUser=new UserProfileDao().getUserByUserName(username);
-					req.setAttribute("user", singleUser);
+					System.out.println("===singleUser==="+singleUser);
+					req.setAttribute("singleUser", singleUser);
 					requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/user-profile.jsp");
 					requestDispatcher.forward(req, resp);
 				}				
 			}
 			else{
+				System.out.println("User is not present : ");
 				req.setAttribute("message", "Credentials that provided by you is wrong !! ");
 				requestDispatcher=req.getRequestDispatcher("WEB-INF/pages/login.jsp");
 				requestDispatcher.forward(req, resp);

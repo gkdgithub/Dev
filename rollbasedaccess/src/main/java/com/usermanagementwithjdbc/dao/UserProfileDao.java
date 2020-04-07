@@ -12,6 +12,7 @@ public class UserProfileDao {
 	
 	
 	private static final String SELECT_PROFILE_BY_USERNAME="select * from user_table where userName=?";
+	private static final String VERIFY_PASSWORD="select password from user_table where userName=?";
 	private static final String UPDATE_PASSWORD="update user_table set password=? where userName=?";
 	
 	
@@ -24,7 +25,7 @@ public class UserProfileDao {
 	}
 	
 	public User getUserByUserName(String userName){
-		System.out.println(userName);
+		System.out.println("Inside getUserByUserName of userProfile class, userName --===>>>"+userName);
 		User user=new User();
 		ResultSet rs=null;
 		PreparedStatement pStatement=null;
@@ -37,6 +38,7 @@ public class UserProfileDao {
 					user.setUserName(rs.getString("userName"));
 					user.setEmail(rs.getString("email"));
 					user.setCountry(rs.getString("country"));
+					user.setUserRole(rs.getString("userRole"));
 				}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,7 +53,31 @@ public class UserProfileDao {
 		}
 		return user;	
 	}
-
+	
+	public Boolean verifyOldPassword(String oldPassword, String username){
+		System.out.println("===verifyOldPassword===");
+		boolean isPresent=false;
+		try(PreparedStatement preparedStatement=getConnection().prepareStatement(VERIFY_PASSWORD)){
+			preparedStatement.setString(1, username);
+			ResultSet rs=preparedStatement.executeQuery();
+			if(rs.next()){
+				if(oldPassword.equals(rs.getString("password"))){
+					System.out.println("===OldPassword is Present===");
+					isPresent=true;
+				}
+				else{
+					System.out.println("===OldPassword is not Present===");
+				}
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isPresent;
+	}
 	
 	public int changePassword(String oldPassword, String enterNewPassword, String username) {
 		int updated=0;

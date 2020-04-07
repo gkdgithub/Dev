@@ -15,9 +15,11 @@
 		<center>
 			<h1>User Management</h1>
 			<h2>
-				<a href="new">Add New User</a>
-				&nbsp;&nbsp;&nbsp;
-				<a href="list">List of All Users</a>
+				<!-- <a href="new">Add New User</a> -->
+				<%-- &nbsp;&nbsp;&nbsp;
+				<c:if test='<%= session.getAttribute("ROLE")!=null%>'>
+					<a href="list">List of All Users</a>
+				</c:if> --%>
 				&nbsp;&nbsp;&nbsp;
 				<c:if test='<%= session.getAttribute("username")==null%>'>
 					<a href="login">Login</a>
@@ -33,6 +35,10 @@
 				&nbsp;&nbsp;&nbsp;
 				<c:if test="${userName!=null}">
 					<h2><c:out value="${userName}"></c:out></h2>
+				</c:if>
+				&nbsp;&nbsp;&nbsp;
+				<c:if test="${regisMessage!=null}">
+					<h2><c:out value="${regisMessage}"></c:out></h2>
 				</c:if>
 			</h2>	
 		</center>

@@ -22,7 +22,7 @@ public class UserDao {
 	    private static final String DELETE_USERS_SQL = "delete from user_table where id = ?;";
 	    private static final String UPDATE_USERS_SQL = "update user_table set userName = ?,email= ?, country =? where id = ?;";
 	    
-	    private static final String COUNT_USER_BY_USERNAME="select userName from user_table where userName=?";
+	    private static final String SELECT_USERNAME="select userName from user_table";
 	
 	    public UserDao() {
 			// TODO Auto-generated constructor stub
@@ -60,6 +60,7 @@ public class UserDao {
 		
 		
 		public List<User> getAllUser(){
+			System.out.println("===Get All User===");
 			System.out.println(SELECT_ALL_USERS);
 			List<User> listOfUser=new ArrayList<>();
 			try(PreparedStatement preparedStatement=getConnection().prepareStatement(SELECT_ALL_USERS)){
@@ -128,22 +129,28 @@ public class UserDao {
 			}
 		}
 		
-		public int getUserByUserName(String userName){
-			int userNameCount=0;
-			try(PreparedStatement preparedStatement=getConnection().prepareStatement(COUNT_USER_BY_USERNAME)){
-				preparedStatement.setString(1, userName);
+		public boolean checkDuplicateUserName(String userName){
+			System.out.println("Inside getUserByUserName method : "+ userName);
+			List<String> allUserNames=new ArrayList<>();
+			boolean status=false;
+			try(PreparedStatement preparedStatement=getConnection().prepareStatement(SELECT_USERNAME)){
 				ResultSet resultSet=preparedStatement.executeQuery();
-				if(resultSet.next()){
-					return userNameCount++;
+				while(resultSet.next()){
+					System.out.println("====Result set is present====");
+					allUserNames.add(resultSet.getString("userName"));
 				}
-				else{
-					return userNameCount;
+				for (String name : allUserNames) {
+					if(name.equals(userName)){
+						status=true;
+						break;
+					}
 				}
 			}
 			catch(SQLException sqlException){
 				printSQLException(sqlException);
-				return userNameCount;
+				return status;
 			}
+			return status;
 		}
 		
 		private void printSQLException(SQLException sqlException) {

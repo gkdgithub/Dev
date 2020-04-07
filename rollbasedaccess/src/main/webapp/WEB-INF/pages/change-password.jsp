@@ -19,7 +19,7 @@
 				</c:if>
 		</center>
 		<div align="center">
-			<form action="ChangePassword" method="post">
+			<form action="changePassword" method="post">
 				<table border="1" cellpadding="10">
 				
 					<tr>
