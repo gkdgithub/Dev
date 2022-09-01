@@ -2,6 +2,7 @@
 RemoteSystemsTempFiles
 Servers/
 .recommenders
+.idea
 
 HELP.md
 target/
