@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.codewithgaurav.blog.dto.PostDto;
 import com.codewithgaurav.blog.response.ApiResponse;
-import com.codewithgaurav.blog.response.PostPaginationResponse;
+import com.codewithgaurav.blog.response.PaginationResponse;
 import com.codewithgaurav.blog.service.FileService;
 import com.codewithgaurav.blog.service.PostService;
 
@@ -58,12 +58,12 @@ public class PostController {
 	}
 
 	@GetMapping("/posts")
-	public ResponseEntity<PostPaginationResponse> getAllPost(
+	public ResponseEntity<PaginationResponse> getAllPost(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
 			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
-		return new ResponseEntity<PostPaginationResponse>(postService.getAllPost(pageNumber, pageSize, sortBy, sortDir),
+		return new ResponseEntity<PaginationResponse>(postService.getAllPost(pageNumber, pageSize, sortBy, sortDir),
 				HttpStatus.OK);
 	}
 

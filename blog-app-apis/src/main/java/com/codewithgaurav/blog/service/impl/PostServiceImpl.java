@@ -20,7 +20,7 @@ import com.codewithgaurav.blog.mapper.PostMapper;
 import com.codewithgaurav.blog.repository.CategoryRepo;
 import com.codewithgaurav.blog.repository.PostRepo;
 import com.codewithgaurav.blog.repository.UserRepo;
-import com.codewithgaurav.blog.response.PostPaginationResponse;
+import com.codewithgaurav.blog.response.PaginationResponse;
 import com.codewithgaurav.blog.service.PostService;
 
 @Service
@@ -59,14 +59,15 @@ public class PostServiceImpl implements PostService {
 		Post post = getPostBasedOnId(postId);
 		post.setTitle(postDto.getTitle());
 		post.setContent(postDto.getContent());
-		post.setImageName(postDto.getImageName());
+		if (postDto.getImageName() != null && postDto.getImageName().length() > 0)
+			post.setImageName(postDto.getImageName());
 
 		Post updatedPost = postRepo.save(post);
 		return postMapper.postToDto(updatedPost);
 	}
 
 	@Override
-	public PostPaginationResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+	public PaginationResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
 
 		Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
@@ -76,9 +77,9 @@ public class PostServiceImpl implements PostService {
 
 		List<PostDto> postDtos = posts.stream().map(post -> postMapper.postToDto(post)).collect(Collectors.toList());
 
-		return PostPaginationResponse.builder().content(postDtos).pageNumber(pages.getNumber())
-				.pageSize(pages.getSize()).totalElements(pages.getTotalElements()).totalPage(pages.getTotalPages())
-				.lastPage(pages.isLast()).build();
+		return PaginationResponse.builder().content(postDtos).pageNumber(pages.getNumber()).pageSize(pages.getSize())
+				.totalElements(pages.getTotalElements()).totalPage(pages.getTotalPages()).lastPage(pages.isLast())
+				.build();
 	}
 
 	@Override
@@ -105,7 +106,7 @@ public class PostServiceImpl implements PostService {
 	public List<PostDto> getPostByUser(Integer userId) {
 
 		User user = getUserById(userId);
-		return postRepo.findByUser(user).stream().map(singleUser -> postMapper.postToDto(singleUser))
+		return postRepo.findByUser(user).stream().map(singlePost -> postMapper.postToDto(singlePost))
 				.collect(Collectors.toList());
 	}
 

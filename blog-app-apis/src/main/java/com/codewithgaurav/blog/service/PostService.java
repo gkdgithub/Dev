@@ -3,7 +3,7 @@ package com.codewithgaurav.blog.service;
 import java.util.List;
 
 import com.codewithgaurav.blog.dto.PostDto;
-import com.codewithgaurav.blog.response.PostPaginationResponse;
+import com.codewithgaurav.blog.response.PaginationResponse;
 
 public interface PostService {
 
@@ -11,7 +11,7 @@ public interface PostService {
 
 	PostDto updatePost(PostDto postDto, Integer postId);
 
-	PostPaginationResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
+	PaginationResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 
 	PostDto getPostById(Integer postId);
 
